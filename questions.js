@@ -1,104 +1,802 @@
 const originalQuestions = [
-  { q: "What does CSRF protection prevent in web applications?", opts: ["SQL injection", "Cross-Site Request Forgery", "Cross-Site Scripting", "Denial of Service"], ans: 1 },
-  { q: "In Flask, static files are typically stored in which directory?", opts: ["templates/", "static/", "public/", "assets/"], ans: 1 },
-  { q: "Django follows which architectural pattern?", opts: ["MVC (Model-View-Controller)", "MVT (Model-View-Template)", "MVVM (Model-View-ViewModel)", "MVP (Model-View-Presenter)"], ans: 1 },
-  { q: "In Flask, url_for() function is used to:", opts: ["Create database URLs", "Generate URLs for routes", "Validate URLs", "Parse URLs"], ans: 1 },
-  { q: "Which of the following is a characteristic of Flask?", opts: ["Built-in admin interface", "Built-in ORM", "Minimalistic and flexible", "Requires specific project structure"], ans: 2 },
-  { q: "In Django, models are defined in which file?", opts: ["models.py", "views.py", "urls.py", "settings.py"], ans: 0 },
-  { q: "What does ORM stand for?", opts: ["Object-Relational Mapping", "Object-Relational Model", "Object-Resource Mapping", "Operation-Resource Management"], ans: 0 },
-  { q: "In SQLAlchemy, what does the Session object manage?", opts: ["Database connections only", "Transactions and object persistence", "Only query building", "Only schema creation"], ans: 1 },
-  { q: "Which of the following is NOT an ORM framework for Python?", opts: ["SQLAlchemy", "Django ORM", "Hibernate", "Peewee"], ans: 2 },
-  { q: "In SQLAlchemy, what does declarative_base() create?", opts: ["A database connection", "A base class for ORM models", "A session factory", "An engine"], ans: 1 },
-  { q: "What is the purpose of session.commit() in SQLAlchemy?", opts: ["Rolls back changes", "Saves changes to the database", "Closes the session", "Creates a new session"], ans: 1 },
-  { q: "In Django ORM, objects.all() returns:", opts: ["A single object", "All objects in the database table", "The first object", "The last object"], ans: 1 },
-  { q: "Which method is used to filter results in Django ORM?", opts: ["filter()", "where()", "select()", "find()"], ans: 0 },
-  { q: "In SQLAlchemy, session.query(User).filter_by(name='John').first() returns:", opts: ["All users named John", "The first user named John", "A list of users named John", "None of the above"], ans: 1 },
-  { q: "What is the primary advantage of using ORM?", opts: ["Faster than raw SQL", "Python code instead of SQL", "No need for databases", "Automatic indexing"], ans: 1 },
-  { q: "In Django, which method is used to save a model instance to the database?", opts: ["save()", "insert()", "create()", "store()"], ans: 0 },
-  { q: "SQLAlchemy's create_engine() function:", opts: ["Creates a database", "Creates a database engine/connection pool", "Creates tables", "Creates ORM models"], ans: 1 },
-  { q: "Which of the following is NOT a CRUD operation?", opts: ["Create", "Read", "Update", "Compile"], ans: 3 },
-  { q: "In Django ORM, what does get(id=1) do?", opts: ["Returns all objects", "Returns the object with id=1 or raises DoesNotExist", "Returns None if not found", "Returns a list of objects"], ans: 1 },
-  { q: "In SQLAlchemy, a flush operation:", opts: ["Closes the database connection", "Synchronizes session state with the database", "Deletes all data", "Creates tables"], ans: 1 },
-  { q: "What is the Unit of Work pattern?", opts: ["A pattern for database migration", "A pattern for maintaining a list of objects affected by a transaction", "A pattern for database indexing", "A pattern for caching"], ans: 1 },
-  { q: "In Django, __str__ method in a model is used for:", opts: ["Database indexing", "Human-readable representation of the object", "String formatting of queries", "Field validation"], ans: 1 },
-  { q: "Which of the following is a database security best practice?", opts: ["Storing passwords in plain text", "Using parameterized queries", "Using root user for all operations", "Disabling SSL"], ans: 1 },
-  { q: "In Django ORM, objects.create():", opts: ["Creates a new object and saves it", "Only creates the object without saving", "Creates a database table", "Creates a migration"], ans: 0 },
-  { q: "SQLAlchemy supports which databases?", opts: ["Only SQLite", "Only PostgreSQL", "Multiple databases including SQLite, PostgreSQL, MySQL", "Only MySQL"], ans: 2 },
-  { q: "In Django, what does python manage.py makemigrations do?", opts: ["Applies migrations to the database", "Creates new migration files based on model changes", "Rolls back migrations", "Deletes the database"], ans: 1 },
-  { q: "Which of the following helps prevent SQL injection?", opts: ["String concatenation for queries", "Parameterized queries", "Storing queries in files", "Using eval()"], ans: 1 },
-  { q: "In SQLAlchemy, what is a sessionmaker?", opts: ["A class that creates Session objects", "A class that creates Engine objects", "A class that creates Base objects", "A class that creates tables"], ans: 0 },
-  { q: "In Django, ForeignKey is used to define:", opts: ["A one-to-many relationship", "A many-to-many relationship", "A one-to-one relationship", "A primary key"], ans: 0 },
-  { q: "What is the purpose of database transactions?", opts: ["To speed up queries", "To ensure data consistency and integrity", "To delete data", "To create tables"], ans: 1 },
-  { q: "In SQLAlchemy, which method deletes an object from the database?", opts: ["session.delete(object)", "session.remove(object)", "session.drop(object)", "session.erase(object)"], ans: 0 },
-  { q: "What does GIL stand for in Python?", opts: ["Global Interface Lock", "Global Interpreter Lock", "General Input Language", "Generic Iteration Loop"], ans: 1 },
-  { q: "The GIL prevents:", opts: ["Multiple processes from running", "Multiple threads from executing Python bytecode simultaneously", "Multiple CPUs from being used", "I/O operations"], ans: 1 },
-  { q: "Which Python module is used for creating threads?", opts: ["threading", "thread", "multiprocessing", "asyncio"], ans: 0 },
-  { q: "Which approach is best for CPU-bound tasks in Python?", opts: ["Threading", "Multiprocessing", "asyncio", "Single-threaded"], ans: 1 },
-  { q: "Which module is used for asynchronous programming in Python?", opts: ["threading", "multiprocessing", "asyncio", "concurrent"], ans: 2 },
-  { q: "What is a coroutine in Python?", opts: ["A function defined with def", "A function defined with async def", "A function defined with coroutine def", "A class"], ans: 1 },
-  { q: "Which keyword is used to wait for an awaitable object in Python?", opts: ["wait", "yield", "await", "pause"], ans: 2 },
-  { q: "Asyncio is best suited for:", opts: ["CPU-bound tasks", "I/O-bound tasks with high concurrency", "Memory-bound tasks", "Disk-bound tasks only"], ans: 1 },
-  { q: "In multiprocessing, each process has:", opts: ["Shared memory with other processes", "Its own Python interpreter and memory space", "The same global variables", "No memory"], ans: 1 },
-  { q: "Which method is used to start a thread in Python?", opts: ["thread.start()", "thread.run()", "thread.begin()", "thread.execute()"], ans: 0 },
-  { q: "What does thread.join() do?", opts: ["Terminates the thread", "Waits for the thread to finish", "Starts the thread", "Pauses the thread"], ans: 1 },
-  { q: "In asyncio, what is an event loop?", opts: ["A loop for iterating over events", "The core scheduler that runs coroutines", "A database connection pool", "A threading pool"], ans: 1 },
-  { q: "Which of the following is true about threading in Python?", opts: ["Threads can run in parallel on multiple CPUs", "Threads are limited by the GIL for CPU-bound tasks", "Threads cannot perform I/O operations", "Threads cannot share data"], ans: 1 },
-  { q: "asyncio.gather() is used to:", opts: ["Execute coroutines sequentially", "Execute multiple coroutines concurrently", "Create new coroutines", "Stop the event loop"], ans: 1 },
-  { q: "Which of the following is a synchronization primitive in threading?", opts: ["Lock", "Queue", "List", "Dictionary"], ans: 0 },
-  { q: "The multiprocessing module provides:", opts: ["Only thread-based parallelism", "Process-based parallelism", "Only asynchronous programming", "Only single-threaded execution"], ans: 1 },
-  { q: "What is the difference between concurrency and parallelism?", opts: ["They are the same thing", "Concurrency is about dealing with multiple tasks; parallelism is about executing multiple tasks simultaneously", "Parallelism is about dealing with multiple tasks; concurrency is about executing multiple tasks simultaneously", "Neither involves multiple tasks"], ans: 1 },
-  { q: "In asyncio, asyncio.run():", opts: ["Runs a coroutine and manages the event loop", "Runs multiple threads", "Runs a process", "Runs a database query"], ans: 0 },
-  { q: "Which of the following is NOT a concurrency approach in Python?", opts: ["Threading", "Multiprocessing", "Asyncio", "Multiprocessing.distributed"], ans: 3 },
-  { q: "What is the main limitation of asyncio?", opts: ["It cannot handle I/O operations", "It requires libraries that support async operations", "It is slower than threading", "It cannot run on Windows"], ans: 1 },
-  { q: "In threading, what is a race condition?", opts: ["Two threads running at the same speed", "When multiple threads access shared data and the result depends on execution order", "When a thread stops unexpectedly", "When a thread cannot start"], ans: 1 },
-  { q: "Which module provides a thread-safe queue?", opts: ["queue", "collections", "list", "set"], ans: 0 },
-  { q: "Asyncio uses which programming model?", opts: ["Multi-threaded", "Multi-process", "Single-threaded concurrent", "Distributed"], ans: 2 },
-  { q: "Which of the following is an I/O-bound task?", opts: ["Matrix multiplication", "Sorting a large array", "Reading a file from disk", "Calculating prime numbers"], ans: 2 },
-  { q: "In multiprocessing, Pool.map() is used for:", opts: ["Mapping data to threads", "Applying a function to each element in parallel", "Mapping processes to CPUs", "Mapping database queries"], ans: 1 },
-  { q: "NumPy's primary data structure is called:", opts: ["array", "ndarray", "list", "dataframe"], ans: 1 },
-  { q: "What is the output of np.array([1,2,3]) + np.array([4,5,6])?", opts: ["[5,7,9]", "[1,2,3,4,5,6]", "Error", "[4,10,18]"], ans: 0 },
-  { q: "Which function creates an array of zeros?", opts: ["np.zero()", "np.zeros()", "np.zeros_array()", "np.array(0)"], ans: 1 },
-  { q: "np.arange(5) returns:", opts: ["[0,1,2,3,4]", "[1,2,3,4,5]", "[0,1,2,3,4,5]", "[5,4,3,2,1]"], ans: 0 },
-  { q: "What does np.mean(arr) compute?", opts: ["Median", "Average", "Mode", "Variance"], ans: 1 },
-  { q: "Which method reshapes a NumPy array?", opts: ["reshape()", "resize()", "shape()", "reform()"], ans: 0 },
-  { q: "NumPy arrays are:", opts: ["Slower than Python lists", "Faster than Python lists for numerical operations", "The same speed as Python lists", "Slower for all operations"], ans: 1 },
-  { q: "What is broadcasting in NumPy?", opts: ["Sending data to multiple processes", "Performing operations on arrays of different shapes", "Creating arrays from lists", "Visualizing data"], ans: 1 },
-  { q: "np.linspace(0, 10, 5) returns:", opts: ["[0, 2, 4, 6, 8, 10]", "[0, 2.5, 5, 7.5, 10]", "[0, 10, 20, 30, 40]", "Error"], ans: 1 },
-  { q: "Which function computes the standard deviation?", opts: ["np.std()", "np.mean()", "np.var()", "np.median()"], ans: 0 },
-  { q: "What is the shape of np.zeros((3,4))?", opts: ["(3,)", "(4,)", "(3,4)", "(4,3)"], ans: 2 },
-  { q: "NumPy is built on which language?", opts: ["Java", "C", "Ruby", "JavaScript"], ans: 1 },
-  { q: "Which operation performs element-wise multiplication in NumPy?", opts: ["np.dot(a,b)", "a * b", "a @ b", "np.matmul(a,b)"], ans: 1 },
-  { q: "np.random.randn(10) generates:", opts: ["10 random integers", "10 random numbers from standard normal distribution", "10 random numbers from uniform distribution", "10 zeros"], ans: 1 },
-  { q: "How do you check the shape of a NumPy array?", opts: ["arr.shape()", "arr.shape", "arr.size", "arr.dim"], ans: 1 },
-  { q: "Pandas is built on top of which library?", opts: ["Matplotlib", "NumPy", "SciPy", "Scikit-learn"], ans: 1 },
-  { q: "The two primary data structures in Pandas are:", opts: ["List and Tuple", "Series and DataFrame", "Array and Matrix", "Dict and Set"], ans: 1 },
-  { q: "A Pandas Series is:", opts: ["Two-dimensional labeled data", "One-dimensional labeled array", "Three-dimensional data", "Unlabeled data"], ans: 1 },
-  { q: "How do you read a CSV file in Pandas?", opts: ["pd.read_csv()", "pd.load_csv()", "pd.import_csv()", "pd.csv_read()"], ans: 0 },
-  { q: "df.head() displays:", opts: ["First 5 rows by default", "Last 5 rows", "All rows", "First 10 rows"], ans: 0 },
-  { q: "Which method shows summary statistics of a DataFrame?", opts: ["df.summary()", "df.describe()", "df.stats()", "df.info()"], ans: 1 },
-  { q: "How do you select a single column in Pandas?", opts: ["df['column_name']", "df.column_name", "Both A and B", "df.select('column_name')"], ans: 2 },
-  { q: "Which method removes rows with missing values?", opts: ["df.dropna()", "df.fillna()", "df.remove_na()", "df.clean()"], ans: 0 },
-  { q: "How do you group data in Pandas?", opts: ["df.groupby()", "df.group()", "df.aggregate()", "df.partition()"], ans: 0 },
-  { q: "Which method fills missing values?", opts: ["df.dropna()", "df.fillna()", "df.replace()", "df.update()"], ans: 1 },
-  { q: "Pandas DataFrame is:", opts: ["One-dimensional", "Two-dimensional labeled data", "Three-dimensional", "Unlabeled"], ans: 1 },
-  { q: "Which method merges two DataFrames?", opts: ["df.merge()", "df.join()", "df.concat()", "All of the above"], ans: 3 },
-  { q: "How do you check for null values in a DataFrame?", opts: ["df.isnull()", "df.null()", "df.isna()", "Both A and C"], ans: 3 },
-  { q: "df['column'].value_counts() returns:", opts: ["Sum of values", "Count of unique values", "Mean of values", "Median of values"], ans: 1 },
-  { q: "Pandas is commonly used for:", opts: ["Web development", "Data manipulation and analysis", "Game development", "Operating systems"], ans: 1 },
-  { q: "Matplotlib is primarily used for:", opts: ["Data visualization", "Data manipulation", "Machine learning", "Web development"], ans: 0 },
-  { q: "Which function creates a plot in Matplotlib?", opts: ["plt.plot()", "plt.draw()", "plt.show()", "plt.create()"], ans: 0 },
-  { q: "How do you display a plot in Matplotlib?", opts: ["plt.display()", "plt.show()", "plt.render()", "plt.view()"], ans: 1 },
-  { q: "Which function creates a scatter plot?", opts: ["plt.scatter()", "plt.plot()", "plt.bar()", "plt.hist()"], ans: 0 },
-  { q: "How do you add a title to a plot?", opts: ["plt.title()", "plt.label()", "plt.heading()", "plt.text()"], ans: 0 },
-  { q: "Which function creates a histogram?", opts: ["plt.hist()", "plt.bar()", "plt.plot()", "plt.scatter()"], ans: 0 },
-  { q: "How do you add a legend to a plot?", opts: ["plt.legend()", "plt.label()", "plt.key()", "plt.notes()"], ans: 0 },
-  { q: "Which function creates subplots?", opts: ["plt.subplots()", "plt.subplot()", "Both A and B", "plt.figures()"], ans: 2 },
-  { q: "Matplotlib can save figures using:", opts: ["plt.save()", "plt.savefig()", "plt.export()", "plt.write()"], ans: 1 },
-  { q: "Which of the following is NOT a plot type in Matplotlib?", opts: ["Line plot", "Bar chart", "Pie chart", "Network graph (default)"], ans: 3 },
-  { q: "Scikit-learn is a library for:", opts: ["Web development", "Machine learning", "Data visualization", "Database management"], ans: 1 },
-  { q: "Which of the following is a supervised learning task?", opts: ["Clustering", "Classification", "Dimensionality reduction", "Association rule learning"], ans: 1 },
-  { q: "Which algorithm is used for clustering?", opts: ["Linear Regression", "k-Means", "Decision Tree", "SVM"], ans: 1 },
-  { q: "In train_test_split(), what does the test_size parameter specify?", opts: ["Number of training samples", "Proportion of data for testing", "Number of test samples", "Size of the dataset"], ans: 1 }
+  {
+    q: "The root word of 'technology' is derived from which language?",
+    opts: ["Latin", "Greek", "French", "German"],
+    ans: 1
+  },
+  {
+    q: "The term 'evolution' originates from the Latin word meaning:",
+    opts: ["Revolution", "Innovation", "Unrolling", "Automation"],
+    ans: 2
+  },
+  {
+    q: "The First Industrial Revolution was primarily powered by:",
+    opts: ["Electricity", "Steam power", "Nuclear energy", "Solar energy"],
+    ans: 1
+  },
+  {
+    q: "The Second Industrial Revolution is strongly associated with:",
+    opts: ["Digital computers", "Steam engines", "Electrical power", "Artificial intelligence"],
+    ans: 2
+  },
+  {
+    q: "The Third Industrial Revolution is also called the:",
+    opts: ["Mechanical Revolution", "Digital Revolution", "Energy Revolution", "Agricultural Revolution"],
+    ans: 1
+  },
+  {
+    q: "The Fourth Industrial Revolution (IR 4.0) was popularized by:",
+    opts: ["Alan Turing", "Bill Gates", "Klaus Schwab", "Elon Musk"],
+    ans: 2
+  },
+  {
+    q: "Data is best defined as:",
+    opts: ["Processed information", "Organized facts", "Unprocessed facts and figures", "Final business reports"],
+    ans: 2
+  },
+  {
+    q: "Which of the following is a Boolean data type value?",
+    opts: ["1", "3.14", "TRUE", "\"Data\""],
+    ans: 2
+  },
+  {
+    q: "Structured data typically follows:",
+    opts: ["Random format", "Tabular format", "Audio format", "Binary-only format"],
+    ans: 1
+  },
+  {
+    q: "Metadata is best described as:",
+    opts: ["Processed data", "Data about data", "Raw data", "Encrypted data"],
+    ans: 1
+  },
+  {
+    q: "Why did the Industrial Revolution begin in Britain?",
+    opts: ["Availability of nuclear power", "Agricultural productivity increase", "Internet expansion", "Blockchain adoption"],
+    ans: 1
+  },
+  {
+    q: "Emerging technologies are typically characterized by:",
+    opts: ["Being outdated", "Having no social impact", "Creating significant economic or social impact", "Being purely theoretical"],
+    ans: 2
+  },
+  {
+    q: "The shift from analog to digital electronics occurred during:",
+    opts: ["IR 1.0", "IR 2.0", "IR 3.0", "IR 4.0"],
+    ans: 2
+  },
+  {
+    q: "Semi-structured data differs from structured data because it:",
+    opts: ["Has no format", "Has tags but no rigid schema", "Is always numeric", "Cannot be processed"],
+    ans: 1
+  },
+  {
+    q: "Human-Computer Interaction (HCI) primarily focuses on:",
+    opts: ["Hardware manufacturing", "Improving user-system interaction", "Database storage", "Network topology"],
+    ans: 1
+  },
+  {
+    q: "A computer is called programmable because it:",
+    opts: ["Contains a battery", "Has hardware", "Executes stored instructions", "Connects to the internet"],
+    ans: 2
+  },
+  {
+    q: "Data processing cycle consists of:",
+    opts: ["Store, Delete, Encrypt", "Input, Process, Output", "Scan, Print, Archive", "Code, Debug, Deploy"],
+    ans: 1
+  },
+  {
+    q: "IoT devices are major contributors to:",
+    opts: ["Manual systems", "Big data generation", "Paper documentation", "Analog systems"],
+    ans: 1
+  },
+  {
+    q: "The quaternary industry primarily focuses on:",
+    opts: ["Farming", "Manufacturing", "Research and Development", "Retail"],
+    ans: 2
+  },
+  {
+    q: "AI in smartphones is an example of:",
+    opts: ["IR 2.0", "IR 1.0", "IR 4.0", "Agricultural Revolution"],
+    ans: 2
+  },
+  {
+    q: "A company uses barcode scanners to track inventory automatically. This illustrates:",
+    opts: ["Manual data logging", "Data acquisition", "Data deletion", "Data encryption"],
+    ans: 1
+  },
+  {
+    q: "JSON is best categorized as:",
+    opts: ["Structured data", "Semi-structured data", "Unstructured data", "Metadata"],
+    ans: 1
+  },
+  {
+    q: "A CNC machine controlled via software represents:",
+    opts: ["IR 2.0", "Cyber-physical system", "Agricultural automation", "Manual production"],
+    ans: 1
+  },
+  {
+    q: "A chatbot that responds to customer queries uses:",
+    opts: ["Steam engines", "Artificial Intelligence", "Telegraph", "Mechanical relays"],
+    ans: 1
+  },
+  {
+    q: "Converting monthly sales records into summary reports represents:",
+    opts: ["Data acquisition", "Data processing", "Data deletion", "Data encryption"],
+    ans: 1
+  },
+  {
+    q: "Deploying edge computing reduces:",
+    opts: ["Electricity usage", "Latency", "Programming complexity", "Data storage needs"],
+    ans: 1
+  },
+  {
+    q: "A system predicting user preferences using past purchase data applies:",
+    opts: ["Data mining", "Manual processing", "Steam logic", "Telegraph networks"],
+    ans: 0
+  },
+  {
+    q: "Implementing IoT sensors in agriculture supports:",
+    opts: ["IR 1.0", "Smart farming", "Manual tracking", "Primary industry elimination"],
+    ans: 1
+  },
+  {
+    q: "Using metadata to filter image files by location demonstrates:",
+    opts: ["Data visualization", "Data structuring", "Data indexing", "Data encryption"],
+    ans: 2
+  },
+  {
+    q: "Cloud computing primarily enables:",
+    opts: ["Local-only storage", "Distributed access to resources", "Analog storage", "Mechanical computing"],
+    ans: 1
+  },
+  {
+    q: "The main difference between IR 3.0 and IR 4.0 is:",
+    opts: ["Use of steam power", "Introduction of electricity", "Integration of AI and smart systems", "Agricultural focus"],
+    ans: 2
+  },
+  {
+    q: "Which scenario best illustrates unstructured data?",
+    opts: ["SQL database", "Excel sheet", "Audio recording", "Relational table"],
+    ans: 2
+  },
+  {
+    q: "A failure in data curation most likely results in:",
+    opts: ["Faster processing", "High data quality", "Poor decision-making", "Increased automation"],
+    ans: 2
+  },
+  {
+    q: "A business that ignores big data analytics risks:",
+    opts: ["Over-optimization", "Competitive disadvantage", "Increased profits", "Better insights"],
+    ans: 1
+  },
+  {
+    q: "Compared to structured data, unstructured data is harder to analyze because:",
+    opts: ["It lacks format consistency", "It is encrypted", "It is smaller", "It is always numeric"],
+    ans: 0
+  },
+  {
+    q: "Designing a smart factory integrating IoT, AI, and robotics exemplifies:",
+    opts: ["IR 2.0", "IR 3.0", "IR 4.0 transformation", "Agricultural reform"],
+    ans: 2
+  },
+  {
+    q: "Combining cloud computing and big data analytics to improve healthcare outcomes represents:",
+    opts: ["Digital regression", "Technological stagnation", "Integrated innovation", "Manual processing"],
+    ans: 2
+  },
+  {
+    q: "Developing a new HCI model that integrates gesture recognition requires:",
+    opts: ["Only hardware expertise", "Cognitive psychology and computer science integration", "Steam mechanics", "Telegraph systems"],
+    ans: 1
+  },
+  {
+    q: "A government must choose between investing in AI research or traditional manufacturing. From a long-term innovation perspective, AI is preferable because it:",
+    opts: ["Requires no skills", "Aligns with IR 4.0 global trends", "Eliminates industries", "Reduces education"],
+    ans: 1
+  },
+  {
+    q: "The most strategic reason data is called the 'new oil' is because it:",
+    opts: ["Is physically extracted", "Drives economic and technological transformation", "Is renewable energy", "Replaces electricity"],
+    ans: 1
+  },
+  {
+    q: "Which invention is associated with IR 1.0?",
+    opts: ["Telephone", "Steam Engine", "Internet", "Artificial Intelligence"],
+    ans: 1
+  },
+  {
+    q: "The Second Industrial Revolution is also called the:",
+    opts: ["Digital Revolution", "Technological Revolution", "Steam Revolution", "Agricultural Revolution"],
+    ans: 1
+  },
+  {
+    q: "Which of the following is an example of a tertiary industry?",
+    opts: ["Mining", "Steel production", "Teaching", "Farming"],
+    ans: 2
+  },
+  {
+    q: "Which data type stores whole numbers?",
+    opts: ["float", "char", "int", "string"],
+    ans: 2
+  },
+  {
+    q: "XML is classified as:",
+    opts: ["Structured data", "Semi-structured data", "Unstructured data", "Metadata"],
+    ans: 1
+  },
+  {
+    q: "Which device executes software instructions?",
+    opts: ["Memory", "Microprocessor", "Router", "Switch"],
+    ans: 1
+  },
+  {
+    q: "A router is primarily used for:",
+    opts: ["Data storage", "Instruction execution", "Network communication", "Graphic design"],
+    ans: 2
+  },
+  {
+    q: "Big data is mainly characterized by:",
+    opts: ["Small size", "Limited complexity", "High volume and velocity", "Manual processing"],
+    ans: 2
+  },
+  {
+    q: "The Agricultural Revolution contributed to IR by:",
+    opts: ["Reducing literacy", "Increasing food production", "Eliminating trade", "Stopping innovation"],
+    ans: 1
+  },
+  {
+    q: "AI-powered autonomous vehicles are typical of:",
+    opts: ["IR 2.0", "IR 3.0", "IR 4.0", "IR 1.0"],
+    ans: 2
+  },
+  {
+    q: "Why is structured data easier to analyze?",
+    opts: ["It contains audio files", "It follows a predefined model", "It lacks format", "It is encrypted"],
+    ans: 1
+  },
+  {
+    q: "Data becomes information when it is:",
+    opts: ["Deleted", "Randomized", "Processed and interpreted", "Stored"],
+    ans: 2
+  },
+  {
+    q: "Cyber-physical systems combine:",
+    opts: ["Manual tools and farming", "Physical systems and computational control", "Paper and printing", "Steam and coal only"],
+    ans: 1
+  },
+  {
+    q: "HCI aims to:",
+    opts: ["Increase hardware size", "Improve system-user interaction", "Eliminate software", "Replace networks"],
+    ans: 1
+  },
+  {
+    q: "Edge computing improves system performance mainly by:",
+    opts: ["Increasing data duplication", "Reducing processing distance", "Eliminating servers", "Removing IoT devices"],
+    ans: 1
+  },
+  {
+    q: "The primary industry focuses on:",
+    opts: ["Research", "Services", "Raw material extraction", "Marketing"],
+    ans: 2
+  },
+  {
+    q: "Floating-point numbers are used to represent:",
+    opts: ["Whole numbers", "Boolean values", "Real numbers", "Characters"],
+    ans: 2
+  },
+  {
+    q: "Metadata improves big data systems by:",
+    opts: ["Increasing ambiguity", "Providing contextual information", "Deleting redundant data", "Encrypting files"],
+    ans: 1
+  },
+  {
+    q: "Data curation ensures data is:",
+    opts: ["Random", "Disorganized", "High-quality and reusable", "Deleted quickly"],
+    ans: 2
+  },
+  {
+    q: "The telegraph significantly improved:",
+    opts: ["Transportation", "Communication", "Mining", "Agriculture"],
+    ans: 1
+  },
+  {
+    q: "A company migrating storage to cloud servers is leveraging:",
+    opts: ["IR 1.0", "Steam automation", "Cloud computing", "Manual processing"],
+    ans: 2
+  },
+  {
+    q: "A system using machine learning to detect fraud is an example of:",
+    opts: ["Data deletion", "Data analysis", "Data compression", "Data replication"],
+    ans: 1
+  },
+  {
+    q: "Using JSON APIs to exchange data between systems demonstrates:",
+    opts: ["Structured rigid schema", "Semi-structured data exchange", "Unstructured communication", "Analog processing"],
+    ans: 1
+  },
+  {
+    q: "An IoT-enabled smart home adjusts temperature automatically based on sensors. This reflects:",
+    opts: ["IR 2.0", "Cyber-physical integration", "Manual override", "Agricultural automation"],
+    ans: 1
+  },
+  {
+    q: "A manager using dashboards to analyze monthly trends is performing:",
+    opts: ["Data encryption", "Data acquisition", "Data visualization and analysis", "Data deletion"],
+    ans: 2
+  },
+  {
+    q: "Replacing manual assembly lines with programmable robots illustrates:",
+    opts: ["Regression", "Digital transformation", "Steam power revival", "Analog shift"],
+    ans: 1
+  },
+  {
+    q: "Implementing blockchain for secure transactions supports:",
+    opts: ["Centralized manipulation", "Transparent distributed records", "Manual logs", "Steam communication"],
+    ans: 1
+  },
+  {
+    q: "A mobile banking app using fingerprint recognition applies:",
+    opts: ["HCI principles", "Steam technology", "Telegraphy", "Primary industry"],
+    ans: 0
+  },
+  {
+    q: "Training an AI model using large datasets requires strong knowledge in:",
+    opts: ["Agriculture", "Statistics and linear algebra", "Mining", "Textile production"],
+    ans: 1
+  },
+  {
+    q: "Automating payroll through enterprise software represents:",
+    opts: ["Data processing", "Data deletion", "Data ignorance", "Data mining"],
+    ans: 0
+  },
+  {
+    q: "The main distinction between IR 2.0 and IR 3.0 is:",
+    opts: ["Use of electricity vs. digital electronics", "Steam vs. coal", "Farming vs. mining", "Manual vs. handwritten records"],
+    ans: 0
+  },
+  {
+    q: "A failure in network infrastructure most directly affects:",
+    opts: ["Data visualization", "Data transmission", "Data interpretation", "Data curation"],
+    ans: 1
+  },
+  {
+    q: "Compared to IR 1.0, IR 4.0 emphasizes:",
+    opts: ["Manual labor", "Intelligent automation", "Textile focus", "Steam engines"],
+    ans: 1
+  },
+  {
+    q: "Semi-structured data requires different tools than structured data because it:",
+    opts: ["Has inconsistent hierarchy", "Is always numeric", "Is stored in tables", "Has no metadata"],
+    ans: 0
+  },
+  {
+    q: "The biggest risk of poor data governance in emerging technologies is:",
+    opts: ["Faster innovation", "Ethical and security breaches", "Reduced automation", "Smaller datasets"],
+    ans: 1
+  },
+  {
+    q: "Designing a smart transportation system integrating IoT sensors, AI, and cloud analytics demonstrates:",
+    opts: ["Isolated innovation", "Cross-disciplinary technological synthesis", "Manual engineering", "IR 1.0 focus"],
+    ans: 1
+  },
+  {
+    q: "Creating a startup that combines blockchain and IoT for supply chain tracking represents:",
+    opts: ["Traditional industry", "Innovation ecosystem integration", "Agricultural revolution", "Telegraph improvement"],
+    ans: 1
+  },
+  {
+    q: "Developing a big data platform that integrates structured, semi-structured, and unstructured data requires:",
+    opts: ["Single storage format", "Multi-model database architecture", "Analog storage", "Manual indexing"],
+    ans: 1
+  },
+  {
+    q: "Investing in AI-driven research over fossil-fuel-based technologies is justified because it:",
+    opts: ["Eliminates employment", "Aligns with sustainable digital economies", "Reduces automation", "Avoids globalization"],
+    ans: 1
+  },
+  {
+    q: "The most critical success factor for IR 4.0 implementation in developing countries is:",
+    opts: ["Ignoring digital literacy", "Strong digital infrastructure and policy support", "Eliminating education", "Avoiding globalization"],
+    ans: 1
+  },
+  {
+    q: "The factory system became prominent during:",
+    opts: ["IR 4.0", "IR 3.0", "IR 1.0", "IR 2.0"],
+    ans: 2
+  },
+  {
+    q: "Which invention improved long-distance communication during IR 2.0?",
+    opts: ["Steam engine", "Telegraph", "CNC machine", "Blockchain"],
+    ans: 1
+  },
+  {
+    q: "A Boolean data type can store:",
+    opts: ["Letters", "Decimal numbers", "True or False", "Multiple characters"],
+    ans: 2
+  },
+  {
+    q: "A string data type stores:",
+    opts: ["Only numbers", "Single bit", "Combination of characters", "Machine code"],
+    ans: 2
+  },
+  {
+    q: "Which of the following is an example of unstructured data?",
+    opts: ["SQL table", "Excel sheet", "Video file", "CSV file"],
+    ans: 2
+  },
+  {
+    q: "The term IR 4.0 was introduced in:",
+    opts: ["1950", "2005", "2016", "1980"],
+    ans: 2
+  },
+  {
+    q: "Which industry category does IT research belong to?",
+    opts: ["Primary", "Secondary", "Tertiary", "Quaternary"],
+    ans: 3
+  },
+  {
+    q: "Which device category stores random information?",
+    opts: ["Network", "Memory", "Router", "Switch"],
+    ans: 1
+  },
+  {
+    q: "CPLD and FPGA are examples of:",
+    opts: ["Storage drives", "Programmable devices", "Network cables", "Operating systems"],
+    ans: 1
+  },
+  {
+    q: "Which is NOT part of the data processing cycle?",
+    opts: ["Input", "Output", "Processing", "Encryption"],
+    ans: 3
+  },
+  {
+    q: "The shift from rural to urban living during IR 1.0 occurred mainly because:",
+    opts: ["Farming increased", "Factories required labor", "Internet expanded", "AI automation began"],
+    ans: 1
+  },
+  {
+    q: "Data science differs from traditional statistics because it:",
+    opts: ["Ignores programming", "Integrates algorithms and computing systems", "Avoids large datasets", "Focuses only on theory"],
+    ans: 1
+  },
+  {
+    q: "Semi-structured data like JSON includes:",
+    opts: ["Strict relational schema", "Tags and hierarchical structure", "Only numeric values", "No metadata"],
+    ans: 1
+  },
+  {
+    q: "Data curation ensures data is preserved for:",
+    opts: ["Immediate deletion", "Long-term usability", "Manual handling", "Redundancy"],
+    ans: 1
+  },
+  {
+    q: "IoT devices contribute to big data because they:",
+    opts: ["Reduce storage", "Generate continuous data streams", "Eliminate networks", "Work offline only"],
+    ans: 1
+  },
+  {
+    q: "A microprocessor primarily performs:",
+    opts: ["Data storage", "Instruction execution", "Network routing", "Power supply"],
+    ans: 1
+  },
+  {
+    q: "Edge computing processes data:",
+    opts: ["Only in the cloud", "Near the data source", "In manual registers", "On paper"],
+    ans: 1
+  },
+  {
+    q: "The key driver of IR 3.0 was:",
+    opts: ["Steam", "Electricity", "Digital electronics", "Agriculture"],
+    ans: 2
+  },
+  {
+    q: "Artificial Intelligence in smartphones enhances:",
+    opts: ["Manual dialing", "User experience personalization", "Steam communication", "Coal production"],
+    ans: 1
+  },
+  {
+    q: "Big data analytics helps organizations to:",
+    opts: ["Avoid decisions", "Improve evidence-based decisions", "Reduce automation", "Eliminate competition"],
+    ans: 1
+  },
+  {
+    q: "A hospital using predictive analytics to forecast patient admissions is applying:",
+    opts: ["Data deletion", "Data analysis", "Data encryption", "Data curation only"],
+    ans: 1
+  },
+  {
+    q: "A smart traffic system using sensors and cloud processing demonstrates:",
+    opts: ["IR 1.0", "Isolated computing", "Cyber-physical system", "Manual signaling"],
+    ans: 2
+  },
+  {
+    q: "Storing customer data in a relational database is an example of:",
+    opts: ["Structured data management", "Unstructured storage", "Analog storage", "Paper-based logging"],
+    ans: 0
+  },
+  {
+    q: "An organization adopting DevOps practices aims to:",
+    opts: ["Separate development and operations", "Integrate development and operations", "Eliminate automation", "Reduce collaboration"],
+    ans: 1
+  },
+  {
+    q: "Using RPA to automate invoice processing illustrates:",
+    opts: ["Manual accounting", "Robotic Process Automation", "Steam accounting", "Agricultural automation"],
+    ans: 1
+  },
+  {
+    q: "Deploying AI chatbots reduces:",
+    opts: ["User satisfaction", "Response time", "Digital interaction", "Data generation"],
+    ans: 1
+  },
+  {
+    q: "Encrypting data before cloud storage enhances:",
+    opts: ["Data redundancy", "Data security", "Data duplication", "Data deletion"],
+    ans: 1
+  },
+  {
+    q: "A company analyzing social media posts for sentiment is handling:",
+    opts: ["Structured data only", "Unstructured text data", "Boolean data", "Floating-point data"],
+    ans: 1
+  },
+  {
+    q: "A data warehouse primarily supports:",
+    opts: ["Real-time gaming", "Analytical reporting", "Steam engines", "Manual storage"],
+    ans: 1
+  },
+  {
+    q: "Integrating AI with IoT devices in manufacturing increases:",
+    opts: ["Manual supervision", "Predictive maintenance capability", "Coal usage", "Factory downtime"],
+    ans: 1
+  },
+  {
+    q: "The transformation from IR 2.0 to IR 3.0 reflects a shift from:",
+    opts: ["Steam to electricity", "Electricity to digitalization", "Agriculture to mining", "Manual to steam"],
+    ans: 1
+  },
+  {
+    q: "An organization ignoring metadata risks:",
+    opts: ["Better indexing", "Reduced data discoverability", "Improved analytics", "Stronger governance"],
+    ans: 1
+  },
+  {
+    q: "Big data challenges mainly involve:",
+    opts: ["Low storage needs", "Infrastructure scalability", "Manual indexing", "Limited processing"],
+    ans: 1
+  },
+  {
+    q: "A poorly designed HCI system can lead to:",
+    opts: ["Increased productivity", "User frustration and errors", "Lower system cost", "Better efficiency"],
+    ans: 1
+  },
+  {
+    q: "Compared to IR 1.0, IR 4.0 has greater emphasis on:",
+    opts: ["Manual production", "Smart automation", "Coal mining", "Textile weaving"],
+    ans: 1
+  },
+  {
+    q: "Developing an AI-powered healthcare diagnostic platform integrating big data requires:",
+    opts: ["Single-discipline expertise", "Multidisciplinary collaboration", "Steam systems", "Manual analysis"],
+    ans: 1
+  },
+  {
+    q: "Designing a digital twin for a manufacturing plant involves:",
+    opts: ["Physical-only monitoring", "Real-time virtual modeling", "Steam replication", "Paper documentation"],
+    ans: 1
+  },
+  {
+    q: "Creating a blockchain-based voting system primarily addresses:",
+    opts: ["Manual errors", "Transparency and trust", "Steam delays", "Textile shortages"],
+    ans: 1
+  },
+  {
+    q: "When evaluating emerging technologies for national development, the most critical factor is:",
+    opts: ["Popularity", "Long-term socio-economic impact", "Marketing appeal", "Short-term cost only"],
+    ans: 1
+  },
+  {
+    q: "The sustainability of IR 4.0 depends largely on:",
+    opts: ["Ignoring cybersecurity", "Ethical governance and data protection", "Eliminating innovation", "Manual operations"],
+    ans: 1
+  },
+  {
+    q: "The Congress of Vienna was associated with events following:",
+    opts: ["American Revolution", "French Revolution", "Chinese Revolution", "Industrial Revolution"],
+    ans: 1
+  },
+  {
+    q: "The term 'cyber-physical system' refers to:",
+    opts: ["Manual machine operation", "Computer-controlled physical processes", "Steam-powered tools", "Agricultural devices"],
+    ans: 1
+  },
+  {
+    q: "Which is an example of a Service Enabling Device (SED)?",
+    opts: ["Steam engine", "Router", "Cotton gin", "Sewing machine"],
+    ans: 1
+  },
+  {
+    q: "The primary purpose of a modem is to:",
+    opts: ["Store data", "Execute programs", "Transmit data over communication lines", "Print documents"],
+    ans: 2
+  },
+  {
+    q: "A data warehouse is mainly used for:",
+    opts: ["Gaming", "Transaction processing only", "Analytical reporting", "Steam calculations"],
+    ans: 2
+  },
+  {
+    q: "The quaternary industry is heavily knowledge-based and focuses on:",
+    opts: ["Farming", "Manufacturing", "Research and development", "Fishing"],
+    ans: 2
+  },
+  {
+    q: "One key feature of IR 2.0 was:",
+    opts: ["Machine learning", "Electricity adoption", "Steam power", "Digital logic circuits"],
+    ans: 1
+  },
+  {
+    q: "Which programming data type stores textual data?",
+    opts: ["int", "float", "string", "bool"],
+    ans: 2
+  },
+  {
+    q: "Big Data solutions frequently rely on:",
+    opts: ["Manual storage", "Metadata indexing", "Steam networks", "Telegraph systems"],
+    ans: 1
+  },
+  {
+    q: "Augmented Reality (AR) enhances:",
+    opts: ["Physical world with digital elements", "Steam engines", "Coal mining", "Textile weaving"],
+    ans: 0
+  },
+  {
+    q: "The American Industrial Revolution expanded manufacturing through:",
+    opts: ["Steam only", "Electricity and mass production", "Agriculture", "Manual labor only"],
+    ans: 1
+  },
+  {
+    q: "Unstructured data poses challenges because it:",
+    opts: ["Fits relational tables", "Lacks predefined schema", "Is always numeric", "Is highly organized"],
+    ans: 1
+  },
+  {
+    q: "The goal of data analysis is to:",
+    opts: ["Delete information", "Extract meaningful insights", "Randomize datasets", "Reduce storage"],
+    ans: 1
+  },
+  {
+    q: "AI is considered transformative because it:",
+    opts: ["Automates intelligent decision-making", "Increases manual labor", "Eliminates networks", "Avoids data"],
+    ans: 0
+  },
+  {
+    q: "Edge computing complements cloud computing by:",
+    opts: ["Increasing latency", "Processing data closer to the source", "Removing networks", "Eliminating IoT"],
+    ans: 1
+  },
+  {
+    q: "Data value chain begins with:",
+    opts: ["Analysis", "Visualization", "Acquisition", "Reporting"],
+    ans: 2
+  },
+  {
+    q: "Human factors in HCI focus on:",
+    opts: ["Hardware cost", "Human capabilities and limitations", "Coal production", "Steam engines"],
+    ans: 1
+  },
+  {
+    q: "Blockchain ensures integrity by:",
+    opts: ["Central authority control", "Immutable distributed ledger", "Manual verification", "Paper backup"],
+    ans: 1
+  },
+  {
+    q: "Smart and autonomous systems are typical of:",
+    opts: ["IR 1.0", "IR 2.0", "IR 3.0", "IR 4.0"],
+    ans: 3
+  },
+  {
+    q: "Digital twins are important because they allow:",
+    opts: ["Manual inspection only", "Real-time system simulation", "Steam tracking", "Paper-based modeling"],
+    ans: 1
+  },
+  {
+    q: "A government implementing nationwide 5G enables:",
+    opts: ["Slower connectivity", "Enhanced IoT and real-time applications", "Manual communication", "Telegraph revival"],
+    ans: 1
+  },
+  {
+    q: "Using AI for facial recognition in security systems applies:",
+    opts: ["Cognitive computing", "Steam analytics", "Textile automation", "Mining systems"],
+    ans: 0
+  },
+  {
+    q: "A company analyzing video surveillance footage uses:",
+    opts: ["Structured data tools", "Unstructured data analytics", "Boolean logic only", "Manual scanning"],
+    ans: 1
+  },
+  {
+    q: "Implementing DevOps in software projects primarily improves:",
+    opts: ["Isolation", "Deployment efficiency", "Manual coding", "Steam integration"],
+    ans: 1
+  },
+  {
+    q: "Designing an IoT healthcare monitoring device requires:",
+    opts: ["No network", "Sensor integration and data processing", "Steam engine", "Telegraph system"],
+    ans: 1
+  },
+  {
+    q: "Migrating legacy systems to cloud platforms supports:",
+    opts: ["Digital transformation", "Manual processes", "Coal-based operations", "Analog conversion"],
+    ans: 0
+  },
+  {
+    q: "Applying RPA in HR departments automates:",
+    opts: ["Complex AI reasoning", "Repetitive administrative tasks", "Coal logistics", "Steam operations"],
+    ans: 1
+  },
+  {
+    q: "A smart grid uses digital sensors to:",
+    opts: ["Reduce electricity monitoring", "Optimize energy distribution", "Increase outages", "Eliminate data"],
+    ans: 1
+  },
+  {
+    q: "Combining big data with AI enables:",
+    opts: ["Random predictions", "Predictive analytics", "Manual forecasting", "Steam reporting"],
+    ans: 1
+  },
+  {
+    q: "Designing user-friendly software requires knowledge of:",
+    opts: ["Mining", "HCI principles", "Steam mechanics", "Textile weaving"],
+    ans: 1
+  },
+  {
+    q: "A nation failing to adopt IR 4.0 technologies risks:",
+    opts: ["Faster development", "Global competitiveness decline", "Automation growth", "Technological dominance"],
+    ans: 1
+  },
+  {
+    q: "Poor data acquisition affects:",
+    opts: ["Initial data quality", "Final output only", "Network cables", "Electricity"],
+    ans: 0
+  },
+  {
+    q: "Integrating IoT without cybersecurity planning increases:",
+    opts: ["System resilience", "Security vulnerabilities", "Data efficiency", "Automation"],
+    ans: 1
+  },
+  {
+    q: "Compared to IR 2.0, IR 4.0 requires stronger emphasis on:",
+    opts: ["Manual training", "Digital skills and literacy", "Steam engines", "Textile machinery"],
+    ans: 1
+  },
+  {
+    q: "Misinterpretation of analytics results may occur due to:",
+    opts: ["Strong metadata", "Poor statistical understanding", "High-quality data", "Proper curation"],
+    ans: 1
+  },
+  {
+    q: "Developing a fully autonomous transportation network requires integration of:",
+    opts: ["Steam engines", "AI, IoT, cloud, and edge computing", "Manual traffic control", "Telegraph lines"],
+    ans: 1
+  },
+  {
+    q: "Designing an ethical AI framework should integrate:",
+    opts: ["Profit only", "Legal, social, and technical considerations", "Coal production", "Manual oversight only"],
+    ans: 1
+  },
+  {
+    q: "Building a scalable big data ecosystem requires:",
+    opts: ["Single storage node", "Distributed architecture", "Manual database", "Steam indexing"],
+    ans: 1
+  },
+  {
+    q: "When assessing emerging technologies for adoption, the most critical evaluation criterion is:",
+    opts: ["Trend popularity", "Long-term sustainability and societal impact", "Immediate excitement", "Short-term gains"],
+    ans: 1
+  },
+  {
+    q: "The long-term success of innovation ecosystems depends primarily on:",
+    opts: ["Ignoring education", "Continuous research, collaboration, and digital infrastructure", "Eliminating automation", "Manual systems"],
+    ans: 1
+  }
 ];
-
-
